@@ -27,7 +27,7 @@ env:
 jobs:
   check-files:
     name: 不要なファイルを検索
-    runs-on ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
