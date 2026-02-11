@@ -20,7 +20,7 @@ env:
 #特定のファイル名(拡張子など)のパターン
   UNWANTED_NAME_PATTERNS: "*.pdb *.ilk *.user *.ncb *.suo *.log *.dmp *.zip imgui.ini desktop.ini dxcompiler.dll dxil.dll "
 #ディレクトリ名のパターン(ビルド出力フォルダーなど)
-  UNWANTED_DIR_PATTERNS: "generatde x64 win32 arm64 .vs bin ipch logs Dump"
+  UNWANTED_DIR_PATTERNS: "generated x64 win32 arm64 .vs bin ipch logs Dump"
 
 jobs:
   check-files:
