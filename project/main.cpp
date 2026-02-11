@@ -39,7 +39,6 @@
 
 #include "extarnals/DirectXTex/DirectXTex.h"
 
-
 #pragma comment(lib,"d3d12.lib")
 #pragma comment(lib,"dxgi.lib")
 #pragma comment(lib,"Dbghelp.lib")
