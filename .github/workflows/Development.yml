@@ -1,4 +1,4 @@
-name: DebugBuild
+name: Development
 
 on:
   push:
