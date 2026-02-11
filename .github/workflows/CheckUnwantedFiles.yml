@@ -34,7 +34,7 @@ jobs:
          DIR_CONDITIONS=() 
          for pattern in $UNWANTED_DIT_PATTERNS; do
           DIR_CONDITIONS+=(-o -iname "$pattern") 
-          donde 
+          done 
           unset DIR_CONDITIONS[0]
 
          NAME_CONDITIONS=() 
@@ -47,7 +47,7 @@ jobs:
          \ ( \ ( "${DIR_CONDITIONS[@]}" \ ) -a -type d -print -prune \ ) -o \  
          \ ( \ ( "${NAME_CONDITIONS[@]}" \ ) -a -type f -print \ ) \ 
          )
-         
+
          if[ -n "$UNWANTED_LIST" ] ; then
           echo "::error::不要なファイルまたはディレクトリが見つかりませんでした！"
           echo "$UNWANTED_LIST"
