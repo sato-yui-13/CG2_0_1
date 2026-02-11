@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  SOLUTION_FILE_PATH: CG2_LE2C_0_1.sln
+  SOLUTION_FILE_PATH: project/CG2_LE2C_0_1.sln
   CONFIGURATION: Debug
 
 jobs:
