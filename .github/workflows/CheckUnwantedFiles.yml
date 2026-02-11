@@ -36,19 +36,19 @@ jobs:
           DIR_CONDITIONS+=(-o -iname "$pattern") 
           done 
           unset DIR_CONDITIONS[0]
-
+         
          NAME_CONDITIONS=() 
          for pattern in $UNWANTED_NAME_PATTERNS; do 
-         NAME_CONDITIONS+=(-o -iname "$pattern") 
+           NAME_CONDITIONS+=(-o -iname "$pattern") 
          done 
          unset NAME_CONDITIONS[0]
 
-         UNWANTED_LIST=$(find . -path " ./.git " -prune -o \ 
-         \ ( \ ( "${DIR_CONDITIONS[@]}" \ ) -a -type d -print -prune \ ) -o \  
-         \ ( \ ( "${NAME_CONDITIONS[@]}" \ ) -a -type f -print \ ) \ 
+         UNWANTED_LIST=$(find . -path "./.git " -prune -o \ 
+         \( \( "${DIR_CONDITIONS[@]}" \) -a -type d -print -prune \) -o \
+         \( \( "${NAME_CONDITIONS[@]}" \) -a -type f -print \) \ 
          )
 
-         if[ -n "$UNWANTED_LIST" ] ; then
+         if [ -n "$UNWANTED_LIST" ]; then
           echo "::error::不要なファイルまたはディレクトリが見つかりませんでした！"
           echo "$UNWANTED_LIST"
           exit 1 
