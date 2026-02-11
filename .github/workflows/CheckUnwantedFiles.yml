@@ -33,9 +33,9 @@ jobs:
         run: | #ディレクトリ条件を構築（最初の不要な　-o を後で削除）       
          DIR_CONDITIONS=() 
          for pattern in $UNWANTED_DIT_PATTERNS; do
-          DIR_CONDITIONS+=(-o -iname "$pattern") 
-          done 
-          unset DIR_CONDITIONS[0]
+           DIR_CONDITIONS+=(-o -iname "$pattern") 
+         done 
+         unset DIR_CONDITIONS[0]
          
          NAME_CONDITIONS=() 
          for pattern in $UNWANTED_NAME_PATTERNS; do 
@@ -44,14 +44,14 @@ jobs:
          unset NAME_CONDITIONS[0]
 
          UNWANTED_LIST=$(find . -path "./.git " -prune -o \ 
-         \( \( "${DIR_CONDITIONS[@]}" \) -a -type d -print -prune \) -o \
-         \( \( "${NAME_CONDITIONS[@]}" \) -a -type f -print \) \ 
+           \( \( "${DIR_CONDITIONS[@]}" \) -a -type d -print -prune \) -o \
+           \( \( "${NAME_CONDITIONS[@]}" \) -a -type f -print \) \ 
          )
 
          if [ -n "$UNWANTED_LIST" ]; then
-          echo "::error::不要なファイルまたはディレクトリが見つかりませんでした！"
-          echo "$UNWANTED_LIST"
-          exit 1 
+           echo "::error::不要なファイルまたはディレクトリが見つかりませんでした！"
+           echo "$UNWANTED_LIST"
+           exit 1 
          fi
          
          echo "リポジトリはクリーンです"
