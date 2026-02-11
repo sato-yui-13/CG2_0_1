@@ -53,7 +53,6 @@ using namespace MatrixMath;
 #pragma region 構造体
 
 
-
 struct VertexData {
 	Vector4 position;
 	Vector2 texcoord;
