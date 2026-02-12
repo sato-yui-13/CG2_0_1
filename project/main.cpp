@@ -319,90 +319,6 @@ ModelData LoadObjFile(const std::string& directoryPath, const std::string& filen
 
 
 
-
-
-
-
-
-
-//音声データの読み込み
-SoundData SoundLoadWave(const char* filename)
-{
-	//HRESULT result;
-
-
-	//ファイルオープン
-	std::ifstream file;
-
-	file.open(filename, std::ios_base::binary);
-
-	assert(file.is_open());
-
-	//wavデータ読み込み
-	RifferHeader riff;
-	file.read((char*)&riff, sizeof(riff));
-
-	if (strncmp(riff.chunk.id, "RIFF", 4) != 0) {
-		assert(0);
-	}
-
-	if (strncmp(riff.type, "WAVE", 4) != 0) {
-		assert(0);
-	}
-	FormatChunk format = {};
-	file.read((char*)&format, sizeof(ChunkHeader));
-	if (strncmp(format.chunk.id, "fmt ", 4) != 0) {
-		assert(0);
-	}
-
-	//チャンク本体の読み込み
-	assert(format.chunk.size <= sizeof(format.fmt));
-	file.read((char*)&format.fmt, format.chunk.size);
-
-
-	ChunkHeader data;
-	file.read((char*)&data, sizeof(data));
-
-	if (strncmp(data.id, "JUNK", 4) == 0) {
-		file.seekg(data.size, std::ios_base::cur);
-
-		file.read((char*)&data, sizeof(data));
-	}
-
-	if (strncmp(data.id, "data", 4) != 0) {
-		assert(0);
-	}
-
-	char* pBuffer = new char[data.size];
-	file.read(pBuffer, data.size);
-
-	//Waveファイルを閉じる
-	file.close();
-
-	//Dataチャンクのデータ部(波形データ)の読み来み
-	//ファイルクローズ
-
-
-	//読み込んだ音声データをreturn
-	SoundData soundData = {};
-
-	soundData.wfex = format.fmt;
-	soundData.pBuffer = reinterpret_cast<BYTE*>(pBuffer);
-	soundData.bufferSize = data.size;
-
-	return soundData;
-}
-
-void SoundUnload(SoundData* soundData)
-{
-	delete[] soundData->pBuffer;
-
-	soundData->pBuffer = 0;
-	soundData->bufferSize = 0;
-	soundData->wfex = {};
-}
-
-
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -466,18 +382,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion
 
-#pragma region ウィンドウ
-
-
-
-#pragma endregion
-
-
-
 #pragma region DirectX12を初期化しよう
-
-	//音声読み込み
-	SoundData soundData1 = SoundLoadWave("resources/fanfare.wav");
 
 
 	HRESULT result = XAudio2Create(&xAudio2, 0, XAUDIO2_DEFAULT_PROCESSOR);
@@ -528,10 +433,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 
-#pragma endregion
-
-
-#pragma endregion
 
 #pragma region ModelDataを使う
 	//ModelDataを使う
@@ -776,7 +677,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		Matrix4x4 viewMatrix = Inverse(cameraMatrix);
 		Matrix4x4 projectionMatrix = PerspectiveFov(0.45f, float(WinApp::kClientWidth) / float(WinApp::kClientHeight), 0.1f, 100.0f);
 		Matrix4x4 worldViewProjectionMatrix = Multipty(worldMatrix, Multipty(viewMatrix, projectionMatrix));
-		//wvpData->WVP = worldViewProjectionMatrix;
+	
 
 		
 
@@ -908,18 +809,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//xAudio2解放
 	xAudio2.Reset();
 
-	//音声データ解放
-	SoundUnload(&soundData1);
-
-	//入力解放
-	//delete input;
+	
 
 	//DirectX解放
 	delete dxCommon;
-
-	//出力ウィンドウへの文字出力
-	//Log(logStream, "HelloWored\n");
-	//Log(logStream, ConvertString(std::format(L"WSTRING{}\n", WinApp::kClientWidth)));
 
 	//テクスチャマネージャーの終了
 	TextureManager::GetInstance()->Finalize();
