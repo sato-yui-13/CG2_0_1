@@ -644,7 +644,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		bool temp_enableLightFlag = (materialData->enableLighting == 1);
 
-		directionalLightData->direction = Normalize(directionalLightData->direction);
+		
 
 		ImGui::Begin("Settings");
 
